@@ -1,0 +1,43 @@
+steps:
+  # Build my-app image
+  - name:  gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - eu.gcr.io/qai-a-365804/flask-docker
+      - .
+
+  # Push my-app image to Google Cloud Registry
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - eu.gcr.io/qai-a-365804/flask-docker:latest
+
+  # Configure a kubectl workspace for this project
+  - name: gcr.io/cloud-builders/kubectl
+    args:
+      - cluster-info
+    env:
+      - CLOUDSDK_COMPUTE_REGION=us-central1
+      - CLOUDSDK_CONTAINER_CLUSTER=ci-cd-cluster-1
+      - KUBECONFIG=/workspace/.kube/config
+
+  # Deploy with Helm
+  - name: eu.gcr.io/qai-a-365804/helm
+    args:
+      - upgrade
+      - -i
+      - helloWorld
+      - ./kubernetes
+      - --set
+      - image.repository=eu.gcr.io/qai-a-365804/flask-docker,image.tag=latest
+      - -f
+      - ./kubernetes/values.yaml
+    env:
+      - KUBECONFIG=/workspace/.kube/config
+      - TILLERLESS=false
+      - TILLER_NAMESPACE=kube-system
+timeout: 1200s
+substitutions:
+  _CUSTOM_REGION: europe-west4
+  _CUSTOM_CLUSTER: gke-cluster
