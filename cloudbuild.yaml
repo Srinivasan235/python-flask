@@ -22,23 +22,12 @@ steps:
       - CLOUDSDK_COMPUTE_ZONE=us-central1-c
       - CLOUDSDK_CONTAINER_CLUSTER=ci-cd-cluster-1
       - KUBECONFIG=/workspace/.kube/config
-
-  # Deploy with Helm
-  - name: eu.gcr.io/qai-a-365804/helm
+  - name: "gcr.io/cloud-builders/gke-deploy"
     args:
-      - upgrade
-      - -i
-      - helloWorld
-      - ./kubernetes
-      - --set
-      - image.repository=eu.gcr.io/qai-a-365804/flask-docker,image.tag=latest
-      - -f
-      - ./kubernetes/values.yaml
-    env:
-      - KUBECONFIG=/workspace/.kube/config
-      - TILLERLESS=false
-      - TILLER_NAMESPACE=kube-system
+      - run
+      - --filename=kubernetes-resource-file
+      - --image=eu.gcr.io/qai-a-365804/flask-docker:latest
+      - --location=us-central1-c
+      - --cluster=ci-cd-cluster-1
+
 timeout: 1200s
-substitutions:
-  _CUSTOM_REGION: europe-west4
-  _CUSTOM_CLUSTER: gke-cluster
