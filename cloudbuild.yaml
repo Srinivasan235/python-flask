@@ -24,11 +24,13 @@ steps:
       - KUBECONFIG=/workspace/.kube/config
   - name: "gcr.io/cloud-builders/gke-deploy"
   
-  # - name: "gcr.io/cloud-builders/gke-deploy"
-  #   args:
-      
-  #     - image.repository=eu.gcr.io/qai-a-365804/flask-docker,image.tag=latest
-  #     - -f
-  #     - ./kubernetes/values.yaml
+# deploy container image to GKE
+  - name: "gcr.io/cloud-builders/gke-deploy"
+    args:
+     - run
+     - --filename=/workspace/.kube
+     - --image=eu.gcr.io/qai-a-365804/flask-docker:latest
+     - --location=us-central1-c
+     - --cluster=ci-cd-cluster-1
 
 timeout: 1200s
