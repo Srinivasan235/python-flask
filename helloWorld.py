@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home_endpoint():
-    return 'Hello World!'
+    return 'Hello World is CI/CD Test!'
 
 
 if __name__ == '__main__':
