@@ -23,11 +23,16 @@ steps:
       - CLOUDSDK_CONTAINER_CLUSTER=ci-cd-cluster-1
       - KUBECONFIG=/workspace/.kube/config
   - name: "gcr.io/cloud-builders/gke-deploy"
+  
+  - name: "gcr.io/cloud-builders/gke-deploy"
     args:
-      - run
-      - --filename=kubernetes-resource-file
-      - --image=eu.gcr.io/qai-a-365804/flask-docker:latest
-      - --location=us-central1-c
-      - --cluster=ci-cd-cluster-1
+      - upgrade
+      - -i
+      - helloWorld
+      - ./kubernetes
+      - --set
+      - image.repository=eu.gcr.io/qai-a-365804/flask-docker,image.tag=latest
+      - -f
+      - ./kubernetes/values.yaml
 
 timeout: 1200s
