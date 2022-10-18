@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home_endpoint():
-    return 'Hello World is CI/CD Test!'
+    return 'CI CD Testing...this deployment is automated using cloudbuild!!'
 
 
 if __name__ == '__main__':
