@@ -28,7 +28,6 @@ steps:
   - name: "gcr.io/cloud-builders/gke-deploy"
     args:
      - run
-     - --filename=/workspace/.kube
      - --image=eu.gcr.io/qai-a-365804/flask-docker:latest
      - --location=us-central1-c
      - --cluster=ci-cd-cluster-1
