@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home_endpoint():
-    return 'Hello World..... cloudbuild Test 19-10-2022!!'
+    return 'Hello World..... cloudbuild Test 20-10-2022!!'
 
 
 if __name__ == '__main__':

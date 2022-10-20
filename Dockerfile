@@ -6,3 +6,7 @@ WORKDIR /helloWorld-docker/
 RUN pip3 install -r requirements.txt
 EXPOSE 80
 ENTRYPOINT ["python", "helloWorld.py"]
+
+
+
+
